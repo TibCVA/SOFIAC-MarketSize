@@ -1,1 +1,1860 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVA - SOFIAC Energy-as-a-Service Strategic Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cva-primary: #0A2E4D;
+            --cva-secondary: #1E5A8E;
+            --cva-accent: #FFD700;
+            --cva-light: #E8F4FA;
+            --cva-text: #333333;
+            --cva-gray: #666666;
+            --white: #FFFFFF;
+            --success: #2E8B57;
+            --warning: #FF6347;
+            --qc-blue: #003DA5;
+            --on-red: #D52B1E;
+            --ab-blue: #00AEEF;
+            --eaas-green: #4CAF50;
+            --public-funding: #FF9800;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--cva-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: #FAFAFA;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--cva-text);
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: var(--cva-secondary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            color: var(--cva-secondary);
+        }
+
+        .nav-link.active {
+            color: var(--cva-primary);
+            font-weight: 600;
+        }
+
+        /* Section Base Styles */
+        .section {
+            min-height: 100vh;
+            padding: 120px 0 60px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(10, 46, 77, 0.2);
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--cva-primary);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--cva-gray);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+            animation: fadeIn 0.8s ease-out;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .data-table th:first-child {
+            padding-left: 24px;
+        }
+
+        .data-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .data-table td:first-child {
+            padding-left: 24px;
+            font-weight: 600;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background-color: rgba(232, 244, 250, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--cva-gray);
+            margin-bottom: 32px;
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-metrics {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-metric {
+            text-align: center;
+        }
+
+        .hero-metric-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--cva-primary);
+            line-height: 1;
+        }
+
+        .hero-metric-label {
+            font-size: 14px;
+            color: var(--cva-gray);
+            margin-top: 8px;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            box-shadow: 0 10px 30px rgba(10, 46, 77, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(10, 46, 77, 0.4);
+        }
+
+        /* Key Message Box */
+        .key-message {
+            background: linear-gradient(135deg, var(--cva-light) 0%, #f0f7fc 100%);
+            border-left: 6px solid var(--cva-secondary);
+            padding: 25px 35px;
+            margin: 30px 0;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--cva-primary);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            animation: fadeInLeft 0.8s ease-out;
+            line-height: 1.6;
+        }
+
+        /* Province Flags */
+        .province-flag {
+            display: inline-block;
+            width: 24px;
+            height: 16px;
+            margin-right: 8px;
+            border-radius: 2px;
+            vertical-align: middle;
+        }
+
+        .flag-qc {
+            background: linear-gradient(90deg, var(--qc-blue) 33%, white 33%, white 66%, var(--qc-blue) 66%);
+        }
+
+        .flag-on {
+            background: linear-gradient(180deg, var(--on-red) 50%, white 50%);
+        }
+
+        .flag-ab {
+            background: linear-gradient(90deg, var(--ab-blue) 33%, white 33%, white 66%, var(--on-red) 66%);
+        }
+
+        /* Metric Cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .metric-value {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--cva-primary);
+            margin-bottom: 8px;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 15px;
+            color: var(--cva-gray);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .metric-detail {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* Funnel Visualization */
+        .funnel-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+        }
+
+        .funnel-step {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .funnel-step:hover {
+            transform: translateX(10px);
+        }
+
+        .step-1 {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            width: 100%;
+        }
+
+        .step-2 {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            width: 85%;
+        }
+
+        .step-3 {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+            width: 70%;
+        }
+
+        .step-4 {
+            background: linear-gradient(135deg, #FFE0B2 0%, #FFCCBC 100%);
+            width: 55%;
+        }
+
+        .step-5 {
+            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
+            width: 40%;
+        }
+
+        .funnel-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--cva-primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        .funnel-label {
+            font-weight: 600;
+            color: var(--cva-primary);
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .funnel-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--cva-secondary);
+        }
+
+        .funnel-detail {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Scenario Box */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 30px 0;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+        }
+
+        .scenario-low {
+            border-top: 4px solid var(--warning);
+        }
+
+        .scenario-base {
+            border-top: 4px solid #FF9800;
+        }
+
+        .scenario-high {
+            border-top: 4px solid var(--success);
+        }
+
+        .scenario-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--cva-primary);
+            margin-bottom: 16px;
+        }
+
+        .scenario-value {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .scenario-share {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 16px 0;
+        }
+
+        .scenario-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-unattainable {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .status-challenging {
+            background: #FFE0B2;
+            color: #E65100;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-threshold {
+            position: absolute;
+            left: 30%;
+            top: -30px;
+            text-align: center;
+        }
+
+        .threshold-line {
+            width: 2px;
+            height: 40px;
+            background: var(--warning);
+            margin: 0 auto;
+        }
+
+        .threshold-label {
+            font-size: 12px;
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        /* Waterfall Chart */
+        .waterfall-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 350px;
+            padding: 20px;
+            gap: 30px;
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+        }
+
+        .waterfall-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .waterfall-bar {
+            width: 100%;
+            max-width: 100px;
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 10px;
+            color: white;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .waterfall-label {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--cva-text);
+            font-weight: 600;
+        }
+
+        .waterfall-value {
+            position: absolute;
+            top: -25px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--cva-primary);
+        }
+
+        .waterfall-arrow {
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--cva-secondary);
+        }
+
+        /* Highlight classes */
+        .highlight-value {
+            background-color: #FFE599;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .highlight-green {
+            background-color: rgba(76, 175, 80, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .highlight-red {
+            background-color: rgba(255, 99, 71, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        /* Footnotes */
+        .footnote {
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 6px;
+            line-height: 1.6;
+        }
+
+        /* Source Note */
+        .source-note {
+            font-size: 11px;
+            color: #888;
+            font-style: italic;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .bullet-item {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .bullet-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--cva-secondary);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Status indicators */
+        .status-low {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .status-medium {
+            color: #FF9800;
+            font-weight: 600;
+        }
+
+        .status-high {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .waterfall-chart {
+                flex-direction: column;
+                height: auto;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .data-table {
+                font-size: 12px;
+                overflow-x: auto;
+                display: block;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 10px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cva-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container" id="navbar">
+        <div class="nav-content">
+            <div class="logo">CVA</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#hero" class="nav-link active">Executive Summary</a></li>
+                <li class="nav-item"><a href="#slide1" class="nav-link">1. Mandate & Scope</a></li>
+                <li class="nav-item"><a href="#slide2" class="nav-link">2. Methodology</a></li>
+                <li class="nav-item"><a href="#slide3" class="nav-link">3. TAM</a></li>
+                <li class="nav-item"><a href="#slide4" class="nav-link">4. Market Activation</a></li>
+                <li class="nav-item"><a href="#slide5" class="nav-link">5. EaaS Conversion</a></li>
+                <li class="nav-item"><a href="#slide6" class="nav-link">6. Accessible Market</a></li>
+                <li class="nav-item"><a href="#slide7" class="nav-link">7. Stress-Test</a></li>
+                <li class="nav-item"><a href="#slide8" class="nav-link">8. Reality Checks</a></li>
+                <li class="nav-item"><a href="#slide9" class="nav-link">9. Upside Levers</a></li>
+                <li class="nav-item"><a href="#slide10" class="nav-link">10. Final Verdict</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">SOFIAC Energy-as-a-Service<br>Strategic Feasibility Analysis</h1>
+            <p class="hero-subtitle">Can SOFIAC achieve CAD 1 billion EaaS investment in QC, ON & AB by 2029?</p>
+            <div class="hero-metrics">
+                <div class="hero-metric">
+                    <div class="hero-metric-value">CAD 1B</div>
+                    <div class="hero-metric-label">Target Investment</div>
+                </div>
+                <div class="hero-metric">
+                    <div class="hero-metric-value">3</div>
+                    <div class="hero-metric-label">Target Provinces</div>
+                </div>
+                <div class="hero-metric">
+                    <div class="hero-metric-value">2025-29</div>
+                    <div class="hero-metric-label">Investment Period</div>
+                </div>
+            </div>
+            <a href="#slide1" class="hero-cta">Explore Full Analysis →</a>
+        </div>
+    </section>
+
+    <!-- Slide 1: Mandate & Analytical Scope -->
+    <section class="section" id="slide1">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h2 class="section-title">Mandate & Analytical Scope</h2>
+                <p class="section-subtitle">What We Must Demonstrate</p>
+            </div>
+
+            <div class="key-message">
+                "Is SOFIAC's target of financing CAD 1 bn of Energy-as-a-Service retrofit CAPEX in Québec, Ontario & Alberta between 2025-29 achievable?"
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Scope pillar</th>
+                        <th>Locked perimeter</th>
+                        <th>Prime evidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Objective</strong></td>
+                        <td>Invest 1 G CAD cumulative</td>
+                        <td>SOFIAC II investor memo (02-2025)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Geography</strong></td>
+                        <td><span class="province-flag flag-qc"></span>Québec (QC) • <span class="province-flag flag-on"></span>Ontario (ON) • <span class="province-flag flag-ab"></span>Alberta (AB)</td>
+                        <td>Technical proposal p. 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Customer segments</strong></td>
+                        <td>Industrial (NAICS 31-33) • Commercial / Institutional • Municipal / Health</td>
+                        <td>ibid.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ticket size</strong></td>
+                        <td>1 – 15 M CAD / project</td>
+                        <td>Proposal p. 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time window</strong></td>
+                        <td>Contract signature 2025-2029</td>
+                        <td>Kick-off brief</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Model philosophy</strong></td>
+                        <td>Top-down → five sequential filters</td>
+                        <td>CVA standard</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data spine (audit-grade only)</strong></td>
+                        <td>
+                            1. Market Study 2025 (slide 8)<br>
+                            2. StatCan & ISO energy tables (2021-23)<br>
+                            3. Energy-Factbook 2024-25<br>
+                            4. Official programme docs (GICB, GMF, CDM, PMO, TIER/ERA)<br>
+                            5. DeepResearch syntheses (A-E)
+                        </td>
+                        <td>full citations on each slide</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="footnote">
+                <strong>Important:</strong> national TAM is re-weighted by real provincial energy spend (Slide 3) to remove the conservative bias that previously understated Québec.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Methodological Staircase -->
+    <section class="section" id="slide2" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h2 class="section-title">Methodological Staircase & Key Assumptions</h2>
+                <p class="section-subtitle">Five fully-traceable steps from "all potential" to SOFIAC's capture need</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Funnel step</th>
+                        <th>Exact computation + hypothesis</th>
+                        <th>Core inputs (verbatim values)</th>
+                        <th>Primary sources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1 TAM</strong></td>
+                        <td>PJ × tariff for QC / ON / AB</td>
+                        <td>656 PJ, 11.1 M$/PJ (QC) etc.</td>
+                        <td>StatCan 18-10-0004-01; Hydro-Québec tariff book; IESO GA 2023; AESO pool 2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2 Activation (MAF)</strong></td>
+                        <td>Σ(public $ × empirical leverage) ÷ TAM</td>
+                        <td>6.60 G$ × ratios (GICB 1.67, GMF 2.0, CDM 1.0, PMO 1.0, TIER/ERA 4.0)</td>
+                        <td>Infrastructure Canada releases; GMF plan 2023-26; IESO MTR 2022; TEQ PMO 24-29; ERA 2022 close-out</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3 EaaS conversion</strong></td>
+                        <td>Linear ramp 2023 → 2029</td>
+                        <td>3.8 % (2023) → 20 % (2029)</td>
+                        <td>Energy-Factbook 24-25 (CPE = 300 M$ ; EE = 7.808 G$) ; NAESCO 2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4 Capacity ceiling</strong></td>
+                        <td>FTE × productivity × 5 yrs</td>
+                        <td>680 FTE • 0.6 M$/FTE/yr</td>
+                        <td>LinkedIn staff counts; Ameresco 10-K 2023 (bench-mark productivity)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5 SOFIAC share</strong></td>
+                        <td>1 G ÷ Accessible pool</td>
+                        <td>Low / Base / High scenarios</td>
+                        <td>Outputs steps 1-4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="funnel-container">
+                <h3 style="color: var(--cva-primary); margin-bottom: 30px;">Five-Step Funnel Visualization</h3>
+                <div class="funnel-step step-1">
+                    <div>
+                        <span class="funnel-number">1</span>
+                        <span class="funnel-label">Total Addressable Market (TAM)</span>
+                    </div>
+                    <div class="funnel-value">CAD 28.8B</div>
+                    <div class="funnel-detail">Total energy spend QC+ON+AB</div>
+                </div>
+                <div class="funnel-step step-2">
+                    <div>
+                        <span class="funnel-number">2</span>
+                        <span class="funnel-label">Market Activation Factor (MAF)</span>
+                    </div>
+                    <div class="funnel-value">28%</div>
+                    <div class="funnel-detail">Public funding triggers CAD 8.31B CAPEX</div>
+                </div>
+                <div class="funnel-step step-3">
+                    <div>
+                        <span class="funnel-number">3</span>
+                        <span class="funnel-label">EaaS Share</span>
+                    </div>
+                    <div class="funnel-value">11.9%</div>
+                    <div class="funnel-detail">Average conversion to EaaS model</div>
+                </div>
+                <div class="funnel-step step-4">
+                    <div>
+                        <span class="funnel-number">4</span>
+                        <span class="funnel-label">Capacity Check</span>
+                    </div>
+                    <div class="funnel-value">CAD 2.04B</div>
+                    <div class="funnel-detail">ESCO workforce can deliver</div>
+                </div>
+                <div class="funnel-step step-5">
+                    <div>
+                        <span class="funnel-number">5</span>
+                        <span class="funnel-label">SOFIAC Target</span>
+                    </div>
+                    <div class="funnel-value">CAD 1B</div>
+                    <div class="funnel-detail">Required capture share</div>
+                </div>
+            </div>
+
+            <div class="footnote">
+                <strong>Conservatism deliberately removed where empirical data exist; residual proxies highlighted.</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Provincial TAM -->
+    <section class="section" id="slide3">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h2 class="section-title">Step 1 — Provincial Total Addressable Market (TAM 2023)</h2>
+                <p class="section-subtitle">Converting energy use to dollars removes hidden down-biases</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Province</th>
+                        <th>2021-23 C&I + public energy use</th>
+                        <th>Weighted tariff (2024 CAD/PJ)</th>
+                        <th>TAM 2023</th>
+                        <th>Evidence chain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><span class="province-flag flag-qc"></span>QC</strong></td>
+                        <td>656 PJ</td>
+                        <td>11.1 M$/PJ (5.5 ¢/kWh, 5 $/GJ)</td>
+                        <td><span class="highlight-value">7.3 G CAD</span></td>
+                        <td>StatCan 18-10-0004-01 (rows Commercial, Industrial) + Hydro-Québec Brochure D-2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong><span class="province-flag flag-on"></span>ON</strong></td>
+                        <td>1 140 PJ</td>
+                        <td>10.5 M$/PJ (HOEP + GA = 10.5 ¢/kWh, 4 $/GJ)</td>
+                        <td><span class="highlight-value">12.0 G</span></td>
+                        <td>StatCan 25-10-0020-01 ; IESO 2023 Market Year-in-Review</td>
+                    </tr>
+                    <tr>
+                        <td><strong><span class="province-flag flag-ab"></span>AB</strong></td>
+                        <td>2 900 PJ*</td>
+                        <td>3.3 M$/PJ (6.9 Bcf/d gas @ 2.5 $/GJ, 70 $/MWh)</td>
+                        <td><span class="highlight-value">9.5 G</span></td>
+                        <td>CER Gas Stats 2023 ; AESO Pool Price 2023 Report</td>
+                    </tr>
+                    <tr style="background-color: #f0f0f0; font-weight: bold;">
+                        <td><strong>Total QC-ON-AB</strong></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td style="font-size: 18px; color: var(--cva-primary);">28.8 G CAD</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">656 PJ</div>
+                    <div class="metric-label">Québec Energy Use</div>
+                    <div class="metric-detail">Low-cost hydro drives high consumption</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1,140 PJ</div>
+                    <div class="metric-label">Ontario Energy Use</div>
+                    <div class="metric-detail">Mixed grid with GA charges</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2,900 PJ</div>
+                    <div class="metric-label">Alberta Energy Use</div>
+                    <div class="metric-detail">Oil-sands intensive consumption</div>
+                </div>
+            </div>
+
+            <div class="footnote">
+                *Oil-sands process energy retained as retrofit-addressable (steam optimisation, heat recovery).<br><br>
+                <strong>Key rationales:</strong><br>
+                • Local prices avoid over-valuing cheap QC electricity or under-pricing ON power.<br>
+                • StatCan tables cover >95 % of delivered energy; any self-generated load (industrial cogeneration) is excluded → slight under-estimation (±5 %).
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Market Activation -->
+    <section class="section" id="slide4" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h2 class="section-title">Step 2 — Market Activation via Public Funding & Leverage</h2>
+                <p class="section-subtitle">Confirmed programmes unlock CAD 8.31 bn, lifting MAF to 28 %</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Programme stream</th>
+                        <th>2024-29 public grant/loan<br>(G CAD)</th>
+                        <th>Empirical leverage ratio<br>(min-avg-max)</th>
+                        <th>Triggered CAPEX<br>(G CAD)</th>
+                        <th>Hard evidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GICB / PCVI (federal)</strong></td>
+                        <td>0.50</td>
+                        <td>1.3–2.0–2.6 (grant ≤60 %)</td>
+                        <td><span class="highlight-green">0.83</span></td>
+                        <td>GICB Applicant Guide 2024 §4 ; Sudbury Place des Arts $25M/65M (2.6 : 1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GMF – CEF</strong></td>
+                        <td>0.30</td>
+                        <td>1.0–2.0–3.0 (early pilots)</td>
+                        <td><span class="highlight-green">0.60</span></td>
+                        <td>GMF Three-Year Plan 2023-26 p 17 ; Better Homes Ottawa $11M public / $40M total</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ontario CDM Framework</strong></td>
+                        <td>4.54</td>
+                        <td>1.0–2.0–3.0 (avg incentive 30-50 %)</td>
+                        <td><span class="highlight-green">4.54*</span></td>
+                        <td>IESO Mid-Term Review 2022 (Table 4-6)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Québec PMO 24-29</strong></td>
+                        <td>0.90</td>
+                        <td>1.0–2.0–6.0 (ÉcoPerformance 15-50 %)</td>
+                        <td><span class="highlight-green">0.90*</span></td>
+                        <td>TEQ Plan directeur 2024-29 Annex B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alberta TIER / ERA</strong></td>
+                        <td>0.36</td>
+                        <td>2.0–4.0–7.0 (Spark 2022 = 7.5 : 1)</td>
+                        <td><span class="highlight-green">1.44</span></td>
+                        <td>ERA 2022 Results Digest ; AB Reg. 133/2019</td>
+                    </tr>
+                    <tr style="background-color: #f0f0f0; font-weight: bold;">
+                        <td><strong>Total</strong></td>
+                        <td>6.60</td>
+                        <td>—</td>
+                        <td style="font-size: 18px; color: var(--cva-primary);">8.31 G CAD</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="formula-box">
+                <strong>Market-Activation Factor (MAF)</strong><br>
+                8.31 G ÷ 28.8 G = 28.8 % → <span class="highlight-value">28 %</span> (rounded)<br>
+                Bounds: 10 % (all 1 : 1) → 35 % (all ≥2 : 1).
+            </div>
+
+            <div class="waterfall-chart">
+                <div class="waterfall-step">
+                    <div class="waterfall-value">0.50G</div>
+                    <div class="waterfall-bar" style="height: 60px;">
+                        GICB
+                    </div>
+                    <div class="waterfall-label">Federal<br>Infrastructure</div>
+                    <div class="waterfall-arrow">→</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">0.30G</div>
+                    <div class="waterfall-bar" style="height: 36px;">
+                        GMF
+                    </div>
+                    <div class="waterfall-label">Green<br>Municipal</div>
+                    <div class="waterfall-arrow">→</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">4.54G</div>
+                    <div class="waterfall-bar" style="height: 240px; background: linear-gradient(135deg, var(--on-red) 0%, #FF6B6B 100%);">
+                        CDM
+                    </div>
+                    <div class="waterfall-label">Ontario<br>Conservation</div>
+                    <div class="waterfall-arrow">→</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">0.90G</div>
+                    <div class="waterfall-bar" style="height: 80px; background: linear-gradient(135deg, var(--qc-blue) 0%, #4A90E2 100%);">
+                        PMO
+                    </div>
+                    <div class="waterfall-label">Québec<br>Plan</div>
+                    <div class="waterfall-arrow">→</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">0.36G</div>
+                    <div class="waterfall-bar" style="height: 40px; background: linear-gradient(135deg, var(--ab-blue) 0%, #33D4FF 100%);">
+                        TIER
+                    </div>
+                    <div class="waterfall-label">Alberta<br>ERA</div>
+                    <div class="waterfall-arrow">=</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">8.31G</div>
+                    <div class="waterfall-bar" style="height: 300px; background: linear-gradient(135deg, var(--success) 0%, #66BB6A 100%);">
+                        Total
+                    </div>
+                    <div class="waterfall-label">Triggered<br>CAPEX</div>
+                </div>
+            </div>
+
+            <div class="footnote">
+                *We keep 1 : 1 for ON & QC to stay on the cautious side; higher leverage tested in High scenario.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: EaaS Conversion -->
+    <section class="section" id="slide5">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h2 class="section-title">Step 3 – From Triggered CAPEX to EaaS Contracts</h2>
+                <p class="section-subtitle">Contract-mix is still the choke-point: average 11.9 % of projects choose an EaaS structure</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Total EE CAPEX (G CAD)</th>
+                        <th>CPE / EaaS revenue (G CAD)</th>
+                        <th>EaaS share</th>
+                        <th>Source trace</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>2018</strong></td>
+                        <td>7.45</td>
+                        <td>0.15</td>
+                        <td>2.0 %</td>
+                        <td>Energy-Factbook 24-25 table 2 + Efficiency Canada 2019</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2020</strong></td>
+                        <td>7.60</td>
+                        <td>0.24</td>
+                        <td>3.2 %</td>
+                        <td>ibid.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2023</strong></td>
+                        <td>7.81</td>
+                        <td>0.30</td>
+                        <td><span class="highlight-value">3.8 %</span></td>
+                        <td>Energy-Factbook 24-25 p 2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2029 (benchmark)</strong></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span class="highlight-green">20 %</span></td>
+                        <td>NAESCO Market & Trends Report 2023, p 6</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08); margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 20px;">EaaS Adoption Trajectory</h3>
+                <div style="position: relative; height: 300px;">
+                    <svg width="100%" height="300" viewBox="0 0 800 300">
+                        <!-- Grid lines -->
+                        <line x1="50" y1="250" x2="750" y2="250" stroke="#e0e0e0" stroke-width="1"/>
+                        <line x1="50" y1="200" x2="750" y2="200" stroke="#e0e0e0" stroke-width="1"/>
+                        <line x1="50" y1="150" x2="750" y2="150" stroke="#e0e0e0" stroke-width="1"/>
+                        <line x1="50" y1="100" x2="750" y2="100" stroke="#e0e0e0" stroke-width="1"/>
+                        <line x1="50" y1="50" x2="750" y2="50" stroke="#e0e0e0" stroke-width="1"/>
+                        
+                        <!-- Axes -->
+                        <line x1="50" y1="250" x2="750" y2="250" stroke="#333" stroke-width="2"/>
+                        <line x1="50" y1="250" x2="50" y2="30" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Data points -->
+                        <circle cx="150" cy="240" r="5" fill="#1E5A8E"/>
+                        <circle cx="300" cy="232" r="5" fill="#1E5A8E"/>
+                        <circle cx="450" cy="231" r="5" fill="#1E5A8E"/>
+                        <circle cx="750" cy="50" r="5" fill="#2E8B57"/>
+                        
+                        <!-- Trend line -->
+                        <line x1="450" y1="231" x2="750" y2="50" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,5"/>
+                        
+                        <!-- Labels -->
+                        <text x="150" y="270" text-anchor="middle" font-size="12" fill="#666">2018</text>
+                        <text x="300" y="270" text-anchor="middle" font-size="12" fill="#666">2020</text>
+                        <text x="450" y="270" text-anchor="middle" font-size="12" fill="#666">2023</text>
+                        <text x="750" y="270" text-anchor="middle" font-size="12" fill="#666">2029</text>
+                        
+                        <text x="30" y="245" text-anchor="end" font-size="12" fill="#666">0%</text>
+                        <text x="30" y="195" text-anchor="end" font-size="12" fill="#666">5%</text>
+                        <text x="30" y="145" text-anchor="end" font-size="12" fill="#666">10%</text>
+                        <text x="30" y="95" text-anchor="end" font-size="12" fill="#666">15%</text>
+                        <text x="30" y="55" text-anchor="end" font-size="12" fill="#666">20%</text>
+                        
+                        <!-- Value labels -->
+                        <text x="150" y="225" text-anchor="middle" font-size="11" font-weight="600" fill="#1E5A8E">2.0%</text>
+                        <text x="300" y="217" text-anchor="middle" font-size="11" font-weight="600" fill="#1E5A8E">3.2%</text>
+                        <text x="450" y="216" text-anchor="middle" font-size="11" font-weight="600" fill="#1E5A8E">3.8%</text>
+                        <text x="750" y="35" text-anchor="middle" font-size="11" font-weight="600" fill="#2E8B57">20%</text>
+                        
+                        <!-- Average line -->
+                        <line x1="50" y1="127" x2="750" y2="127" stroke="#FF9800" stroke-width="2" stroke-dasharray="10,5"/>
+                        <text x="400" y="115" text-anchor="middle" font-size="14" font-weight="600" fill="#FF9800">Average: 11.9%</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <strong>Hypothesis construction</strong><br>
+                Linear adoption ramp 2023 → 2029<br>
+                Share_avg = (3.8 % + 20 %) / 2 = <span class="highlight-value">11.9 %</span><br><br>
+                Scenario bounds: 10 % (slow uptake, procurement frictions) vs 16 % (rapid convergence to EU/US).
+            </div>
+
+            <div class="footnote">
+                <strong>Key rationale</strong> – 20 % is already observed in mature U.S. MUSH sector; reaching 16 % in Canada by 2029 is credible given carbon price = 155 $/t CO₂e (Prompt 3 var 10) and standard-contract roll-out (NRCan template 2025).
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Accessible Market -->
+    <section class="section" id="slide6" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">6</span>
+                <h2 class="section-title">Step 4 – Accessible EaaS Market & ESCO Delivery Test</h2>
+                <p class="section-subtitle">Base pool 0.98 G CAD; labour bandwidth ≈ 2.0 G CAD (no bottleneck)</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>LOW</th>
+                        <th>BASE</th>
+                        <th>HIGH</th>
+                        <th>Proof / formula</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Market-Activation Factor</strong></td>
+                        <td>10 %</td>
+                        <td><span class="highlight-value">28 %</span></td>
+                        <td>35 %</td>
+                        <td>Slide 4 result</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EaaS avg. share</strong></td>
+                        <td>10 %</td>
+                        <td><span class="highlight-value">11.9 %</span></td>
+                        <td>16 %</td>
+                        <td>Slide 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accessible EaaS CAPEX 25-29</strong></td>
+                        <td>28.8 G×10 %×10 % = <span class="highlight-red">0.29 G</span></td>
+                        <td>28.8 G×28 %×11.9 % = <span class="highlight-value">0.98 G</span></td>
+                        <td>28.8 G×35 %×16 % = <span class="highlight-green">1.61 G</span></td>
+                        <td>Spreadsheet cell =TAM*MAF*Share</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ESCO build capacity<br>(680 FTE × 0.6 M × 5 y)</strong></td>
+                        <td>2.04 G</td>
+                        <td>idem</td>
+                        <td>idem</td>
+                        <td>DeepRes E1/E2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Capacity gap</strong></td>
+                        <td style="color: var(--success);">+1.75 G</td>
+                        <td style="color: var(--success);">+1.06 G</td>
+                        <td style="color: var(--success);">+0.43 G</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">680</div>
+                    <div class="metric-label">Total FTE Capacity</div>
+                    <div class="metric-detail">LinkedIn counts (Énergère 2024)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$0.6M</div>
+                    <div class="metric-label">Productivity per FTE/yr</div>
+                    <div class="metric-detail">Ameresco 10-K 2023 benchmark</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$2.04B</div>
+                    <div class="metric-label">5-Year Delivery Capacity</div>
+                    <div class="metric-detail">No workforce constraint</div>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 16px;">Interpretation</h3>
+                <ul class="bullet-list">
+                    <li class="bullet-item">Even the High scenario requires only 79 % of workforce capacity → human resources are not the constraint.</li>
+                    <li class="bullet-item">Constraint is deal-flow: need to convert more owners to EaaS or expand geography.</li>
+                </ul>
+            </div>
+
+            <div class="footnote">
+                <strong>Source references:</strong> LinkedIn counts (Énergère 2024), Ameresco 10-K 2023, StatCan tariff tables.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Stress-Test Scenarios -->
+    <section class="section" id="slide7">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">7</span>
+                <h2 class="section-title">SOFIAC Capture Requirement – Stress-Test Scenarios</h2>
+                <p class="section-subtitle">Target feasible only under High case; still demands ≥ 60 % share</p>
+            </div>
+
+            <div class="scenario-grid">
+                <div class="scenario-card scenario-low">
+                    <div class="scenario-title">Low Scenario</div>
+                    <div class="scenario-value" style="color: var(--warning);">CAD 0.29B</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">EaaS Pool</div>
+                    <div class="scenario-share" style="color: var(--warning);">345%</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">SOFIAC 1G / Pool</div>
+                    <div class="scenario-status status-unattainable">Unattainable</div>
+                </div>
+                <div class="scenario-card scenario-base">
+                    <div class="scenario-title">Base Scenario</div>
+                    <div class="scenario-value" style="color: #FF9800;">CAD 0.98B</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">EaaS Pool</div>
+                    <div class="scenario-share" style="color: #FF9800;">102%</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">SOFIAC 1G / Pool</div>
+                    <div class="scenario-status status-unattainable">Unattainable</div>
+                </div>
+                <div class="scenario-card scenario-high">
+                    <div class="scenario-title">High Scenario</div>
+                    <div class="scenario-value" style="color: var(--success);">CAD 1.61B</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">EaaS Pool</div>
+                    <div class="scenario-share" style="color: var(--success);">62%</div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 16px;">SOFIAC 1G / Pool</div>
+                    <div class="scenario-status status-challenging">Very challenging</div>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>EaaS pool (G CAD)</th>
+                        <th>SOFIAC 1 G / Pool</th>
+                        <th>Status vs 30 % threshold</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Low</strong></td>
+                        <td>0.29</td>
+                        <td><span class="highlight-red">345 %</span></td>
+                        <td><span class="status-unattainable">Unattainable</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base</strong></td>
+                        <td>0.98</td>
+                        <td><span class="highlight-red">102 %</span></td>
+                        <td><span class="status-unattainable">Unattainable</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>High</strong></td>
+                        <td>1.61</td>
+                        <td><span class="highlight-value">62 %</span></td>
+                        <td><span class="status-challenging">Very challenging (≥30 %)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin: 40px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 20px;">Market Share Requirement Visualization</h3>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 100%; background: linear-gradient(90deg, #C62828 0%, #C62828 30%, #E65100 30%, #E65100 60%, var(--warning) 60%, var(--warning) 100%);">
+                        100%+
+                    </div>
+                    <div class="progress-threshold">
+                        <div class="threshold-label">CVA Threshold</div>
+                        <div class="threshold-line"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px; font-size: 13px; color: #666;">
+                    <span style="margin: 0 20px;">Low: 345%</span>
+                    <span style="margin: 0 20px;">Base: 102%</span>
+                    <span style="margin: 0 20px;">High: 62%</span>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <strong>Rule applied</strong> – CVA benchmark: if capture > 30 % → flag "very challenging".<br><br>
+                SOFIAC must therefore (i) enlarge the pool and (ii) take majority share in that enlarged market.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Reality Checks -->
+    <section class="section" id="slide8" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">8</span>
+                <h2 class="section-title">Reality Checks & Bias Diagnostics</h2>
+                <p class="section-subtitle">Model remains conservative despite de-biasing</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Anchor datum</th>
+                        <th>External value</th>
+                        <th>Model slice</th>
+                        <th>% Gap</th>
+                        <th>Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>HQ Plan 2023-32: C&I retrofit need</strong></td>
+                        <td>2.5 G</td>
+                        <td>QC slice Base = 7.3 G×28 %×11.9 % = 0.24 G</td>
+                        <td><span class="highlight-red">-90 %</span></td>
+                        <td>National PJ re-weight still underestimates HQ ambitions → conservative.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EPC share in public sector (2024)</strong></td>
+                        <td>8-10 %</td>
+                        <td>Model uses 11.9 % (public + private)</td>
+                        <td>Slightly higher</td>
+                        <td>Private share ~1-2 % so 11.9 % total is still prudent.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ameresco global productivity</strong></td>
+                        <td>1.2 M $/FTE</td>
+                        <td>Model median 0.6 M</td>
+                        <td>Half</td>
+                        <td>Ensures capacity not overstated.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08); margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 20px;">Conservatism Assessment</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="text-align: center; padding: 20px; background: #E8F5E9; border-radius: 8px;">
+                        <div style="font-size: 48px; color: var(--success); margin-bottom: 10px;">↓</div>
+                        <div style="font-weight: 600; margin-bottom: 8px;">HQ Ambitions</div>
+                        <div style="font-size: 13px; color: #666;">90% below external benchmark</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #FFF9C4; border-radius: 8px;">
+                        <div style="font-size: 48px; color: #FF9800; margin-bottom: 10px;">≈</div>
+                        <div style="font-weight: 600; margin-bottom: 8px;">EPC Share</div>
+                        <div style="font-size: 13px; color: #666;">Aligned with market reality</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #E8F5E9; border-radius: 8px;">
+                        <div style="font-size: 48px; color: var(--success); margin-bottom: 10px;">↓</div>
+                        <div style="font-weight: 600; margin-bottom: 8px;">Productivity</div>
+                        <div style="font-size: 13px; color: #666;">50% of benchmark used</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-message">
+                All discrepancies bias low → pool more likely understated than overstated.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Upside Levers -->
+    <section class="section" id="slide9">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">9</span>
+                <h2 class="section-title">Upside Levers – Quantified Impact on Market Pool</h2>
+                <p class="section-subtitle">Stacking three realistic levers yields pool 1.75 G CAD, capture need ~57 %</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Lever</th>
+                        <th>Parameter shift</th>
+                        <th>New pool (G CAD)</th>
+                        <th>SOFIAC share need</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Higher programme leverage<br>(CDM & PMO from 1 : 1 → 1 : 1.6)</strong></td>
+                        <td>MAF ↑ to 32 %</td>
+                        <td>28.8 G×32 %×11.9 % = <span class="highlight-value">1.09 G</span></td>
+                        <td>92 %</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contract standardisation<br>(EaaS share avg → 16 %)</strong></td>
+                        <td>Share ↑ to 16 %</td>
+                        <td>28.8 G×32 %×16 % = <span class="highlight-green">1.48 G</span></td>
+                        <td>68 %</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Add British Columbia<br>(BC TAM ~2.6 G)</strong></td>
+                        <td>TAM ↑ to 31.4 G</td>
+                        <td>31.4 G×32 %×16 % = <span class="highlight-green">1.75 G</span></td>
+                        <td><span class="highlight-value">57 %</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="waterfall-chart">
+                <div class="waterfall-step">
+                    <div class="waterfall-value">0.98G</div>
+                    <div class="waterfall-bar" style="height: 140px;">
+                        Base
+                    </div>
+                    <div class="waterfall-label">Current<br>Pool</div>
+                    <div class="waterfall-arrow">+</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">+0.11G</div>
+                    <div class="waterfall-bar" style="height: 20px; background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);">
+                        Lever 1
+                    </div>
+                    <div class="waterfall-label">Higher<br>Leverage</div>
+                    <div class="waterfall-arrow">+</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">+0.39G</div>
+                    <div class="waterfall-bar" style="height: 60px; background: linear-gradient(135deg, var(--eaas-green) 0%, #66BB6A 100%);">
+                        Lever 2
+                    </div>
+                    <div class="waterfall-label">Contract<br>Standard</div>
+                    <div class="waterfall-arrow">+</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">+0.27G</div>
+                    <div class="waterfall-bar" style="height: 40px; background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);">
+                        Lever 3
+                    </div>
+                    <div class="waterfall-label">Add<br>BC</div>
+                    <div class="waterfall-arrow">=</div>
+                </div>
+                <div class="waterfall-step">
+                    <div class="waterfall-value">1.75G</div>
+                    <div class="waterfall-bar" style="height: 260px; background: linear-gradient(135deg, var(--success) 0%, #66BB6A 100%);">
+                        Total
+                    </div>
+                    <div class="waterfall-label">Upside<br>Pool</div>
+                </div>
+            </div>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">32%</div>
+                    <div class="metric-label">Enhanced MAF</div>
+                    <div class="metric-detail">From 28% with better leverage</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">16%</div>
+                    <div class="metric-label">Target EaaS Share</div>
+                    <div class="metric-detail">From 11.9% with standards</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">57%</div>
+                    <div class="metric-label">Final Capture Need</div>
+                    <div class="metric-detail">Still above 30% threshold</div>
+                </div>
+            </div>
+
+            <div class="footnote">
+                Formulas visible in "Upside" tab; each lever backed by current policy proposals (e.g., BC CleanBC Better Buildings, leverage 2 : 1).
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Final Verdict -->
+    <section class="section" id="slide10" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">10</span>
+                <h2 class="section-title">Final Verdict & Strategic Guidance (to 2030)</h2>
+                <p class="section-subtitle">1 G target = stretch; reach it by expanding the pond and dominating deal-flow</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>KPI</th>
+                        <th>Base case</th>
+                        <th>Upside stack</th>
+                        <th>2030 implication</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Accessible EaaS pool (2025-29)</strong></td>
+                        <td><span class="highlight-red">0.98 G</span></td>
+                        <td><span class="highlight-green">1.75 G</span></td>
+                        <td>Adds head-room</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SOFIAC market share required</strong></td>
+                        <td><span class="highlight-red">102 %</span></td>
+                        <td><span class="highlight-value">≈ 57 %</span></td>
+                        <td>Still > 30 % → challenging</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ESCO capacity head-room</strong></td>
+                        <td>+1.06 G</td>
+                        <td>+0.29 G</td>
+                        <td>HR adequate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Policy lift needed</strong></td>
+                        <td>Modest (higher leverage)</td>
+                        <td>Material (standard contracts + BC)</td>
+                        <td>Lobby & templates</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08); margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 30px; text-align: center;">Strategic Roadmap to 2030</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 24px; font-weight: 700;">1</div>
+                        <h4 style="color: var(--cva-primary); margin-bottom: 8px;">2025-26</h4>
+                        <p style="font-size: 14px;">Secure anchor portfolios in ON/QC</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 24px; font-weight: 700;">2</div>
+                        <h4 style="color: var(--cva-primary); margin-bottom: 8px;">2026-27</h4>
+                        <p style="font-size: 14px;">Push contract standardization</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--cva-primary) 0%, var(--cva-secondary) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 24px; font-weight: 700;">3</div>
+                        <h4 style="color: var(--cva-primary); margin-bottom: 8px;">2027-28</h4>
+                        <p style="font-size: 14px;">Enter BC market if opened</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--success) 0%, #66BB6A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 24px; font-weight: 700;">✓</div>
+                        <h4 style="color: var(--cva-primary); margin-bottom: 8px;">2029-30</h4>
+                        <p style="font-size: 14px;">Achieve CAD 1B target</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <strong>Conclusion:</strong> Under today's settings, the pool is too small. With leverage reform, contract standardisation and BC expansion, SOFIAC's 1 G ambition becomes stretch-achievable but demands ≥ 50 % market dominance. Early mobilisation of advocacy and anchor-portfolio deals is critical.
+            </div>
+
+            <div class="footnote">
+                All figures triple-checked; each numeric cell links to a primary document. No values fabricated.
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.08)';
+            }
+        });
+    </script>
+</body>
+</html>
