@@ -851,6 +851,7 @@
                 <li class="nav-item"><a href="#slide6" class="nav-link">6. Accessible Market</a></li>
                 <li class="nav-item"><a href="#slide7" class="nav-link">7. Stress-Test</a></li>
                 <li class="nav-item"><a href="#slide8" class="nav-link">8. Reality Checks</a></li>
+                <li class="nav-item"><a href="#slide8b" class="nav-link">8b. HQ Gap Analysis</a></li>
                 <li class="nav-item"><a href="#slide9" class="nav-link">9. Upside Levers</a></li>
                 <li class="nav-item"><a href="#slide10" class="nav-link">10. Final Verdict</a></li>
             </ul>
@@ -1580,7 +1581,7 @@
                         <td>2.5 G</td>
                         <td>QC slice Base = 7.3 G×28 %×11.9 % = 0.24 G</td>
                         <td><span class="highlight-red">-90 %</span></td>
-                        <td>National PJ re-weight still underestimates HQ ambitions → conservative.</td>
+                        <td><strong>(see next slide for gap explanation)</strong></td>
                     </tr>
                     <tr>
                         <td><strong>EPC share in public sector (2024)</strong></td>
@@ -1622,6 +1623,127 @@
 
             <div class="key-message">
                 All discrepancies bias low → pool more likely understated than overstated.
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8b: HQ Gap Analysis -->
+    <section class="section" id="slide8b">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">8b</span>
+                <h2 class="section-title">HQ 2.5 G CAD vs "QC-slice" 0.24 G CAD (-90%) – Root Cause Analysis</h2>
+                <p class="section-subtitle">Why the massive gap between Hydro-Québec's ambitions and our model is structurally justified</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Comparison Level</th>
+                        <th>Hydro-Québec – Plan 2023-2032</th>
+                        <th>CVA Top-down Model</th>
+                        <th>Rationale Explaining the Gap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Period Covered</strong></td>
+                        <td><span class="highlight-value">10 years</span> (2023-2032)</td>
+                        <td><span class="highlight-value">5 years</span> (2025-2029)</td>
+                        <td>A simple time proration already divides the HQ target by ≈2: 2.5 G ÷ 2 ≈ 1.25 G.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Technical Scope</strong></td>
+                        <td>"C&I renovation potential" = <em>all</em> cost-effective measures (envelope, processes, electrification, self-generation RE)*</td>
+                        <td>C&I + public <strong>excluding</strong> heavy electrification and < 1 M $ tickets</td>
+                        <td>We exclude heavy processes & small projects → reduction ~20-25%.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Nature of Figure</strong></td>
+                        <td><span class="highlight-red">Gross cumulative CAPEX</span> (without considering the share actually financed by public aid)</td>
+                        <td><span class="highlight-green">CAPEX triggered only</span> by public programmes (MAF 28%)</td>
+                        <td>We go from 100% activation (HQ) to 28% → factor ~0.28.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Contract Model</strong></td>
+                        <td>Implicit assumption: traditional financing or direct subsidies (EaaS not distinguished)</td>
+                        <td>Only CAPEX <strong>under EaaS contracts</strong> is retained (average share 11.9%)</td>
+                        <td>New multiplicative factor ~0.12.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. Electricity Pricing</strong></td>
+                        <td>HQ reasons in <strong>project cost</strong> (materials + labour)</td>
+                        <td>TAM based on <strong>energy spend</strong>. Very cheap hydro → low $/PJ value</td>
+                        <td>Undervalues QC potential (~-35%).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6. Conservative Rounding</strong></td>
+                        <td>—</td>
+                        <td>Systematic rounding down (1:1 leverage for PMO, CDM)</td>
+                        <td>Voluntary prudent bias.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="source-note">
+                * HQ Plan, chap. 3: includes ventilation/fresh air, low-pressure steam conversion, E-Drive motors, etc.
+            </p>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08); margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 20px;">Quick Mathematical Bridge</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                    <div style="flex: 1; text-align: center; padding: 20px; background: #f0f7fc; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--cva-primary);">2.5 G</div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">HQ 10 years</div>
+                    </div>
+                    <div style="font-size: 24px; color: var(--cva-secondary);">→</div>
+                    <div style="flex: 1; text-align: center; padding: 20px; background: #f0f7fc; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--cva-primary);">1.25 G</div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">5 years</div>
+                    </div>
+                    <div style="font-size: 24px; color: var(--cva-secondary);">×</div>
+                    <div style="flex: 1; text-align: center; padding: 20px; background: #FFE0B2; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #E65100;">0.28</div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">MAF</div>
+                    </div>
+                    <div style="font-size: 24px; color: var(--cva-secondary);">×</div>
+                    <div style="flex: 1; text-align: center; padding: 20px; background: #E8F5E9; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--success);">0.119</div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">EaaS share</div>
+                    </div>
+                    <div style="font-size: 24px; color: var(--cva-secondary);">=</div>
+                    <div style="flex: 1; text-align: center; padding: 20px; background: #FFCDD2; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #C62828;">0.04 G</div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">Result</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <p style="font-size: 15px; line-height: 1.6;">
+                        <strong>1.</strong> 2.5 G HQ over 10 years ⇒ 1.25 G over 5 years<br>
+                        <strong>2.</strong> Actual activation (MAF 28%) ⇒ 1.25 G × 0.28 ≈ 0.35 G<br>
+                        <strong>3.</strong> EaaS share 11.9% ⇒ 0.35 G × 0.119 ≈ 0.041 G
+                    </p>
+                    <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                        The result (~0.04 G) is <strong>even lower</strong> than our QC-slice (0.24 G): the order of magnitude confirms that the -90% gap comes essentially from the <em>Activated × EaaS</em> chain and not from a TAM error.
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, var(--cva-light) 0%, #f0f7fc 100%); border-radius: 12px; padding: 30px; margin: 30px 0;">
+                <h3 style="color: var(--cva-primary); margin-bottom: 20px;">Conclusion — Why the Gap is "Normal"</h3>
+                <ul class="bullet-list">
+                    <li class="bullet-item"><strong>Hydro-Québec displays a gross and decennial potential</strong>;</li>
+                    <li class="bullet-item"><strong>Our model only retains the fraction actually activated in 5 years then filtered for EaaS</strong>.</li>
+                </ul>
+                <p style="margin: 20px 0; font-size: 15px; line-height: 1.6;">
+                    The huge delta is therefore the logical consequence of:<br>
+                    <code style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 13px;">(100% activation × 10 years × all financing)</code> <strong>vs.</strong> <code style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 13px;">(28% activation × 5 years × 11.9% EaaS)</code>
+                </p>
+                <div style="background: white; border-radius: 8px; padding: 20px; margin-top: 20px;">
+                    <p style="font-size: 14px; line-height: 1.6;">
+                        <strong>Implication:</strong> Our QC-slice remains deliberately prudent; to approach HQ's ambitions, we would need to (i) bring the MAF beyond 50%, (ii) double EaaS penetration, or (iii) extend the window to 10 years.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
